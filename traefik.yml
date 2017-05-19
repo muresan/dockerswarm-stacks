@@ -13,7 +13,7 @@ services:
         constraints:
           - node.role == manager
     networks:
-      - hw_replica
+      - proxy
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
@@ -23,6 +23,8 @@ services:
 
 
 networks:
-  hw_replica:
-    external: true
+  proxy:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
 

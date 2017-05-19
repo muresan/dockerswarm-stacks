@@ -8,7 +8,7 @@ services:
         traefik.port: "3000"
         traefik.backend.loadbalancer.sticky: "true"
         traefik.backend.loadbalancer.swarm: "false"
-        traefik.docker.network: "hw_replica"
+        traefik.docker.network: "lb_proxy"
       replicas: 3
       update_config:
         parallelism: 1
@@ -18,6 +18,7 @@ services:
           - node.role == manager
     networks:
       - replica
+      - lb_proxy
     ports:
       - "3000:3000"
     secrets:
@@ -31,6 +32,8 @@ networks:
     ipam:
       config:
       - subnet: 10.0.1.0/24
+  lb_proxy:
+    external: true
       
 secrets:
   secret:

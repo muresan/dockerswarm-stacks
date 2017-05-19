@@ -1,0 +1,28 @@
+version: '3.1'
+
+# docker service create --name traefik --constraint node.role==manager --publish 80:80 --publish 8080:8080
+#   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock --network hw_replica traefik
+#   --docker --docker.swarmmode --docker.domain=traefik --docker.watch --web
+
+services:
+  traefik:
+    image: traefik
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - hw_replica
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    command: "--docker --docker.swarmmode --docker.domain=traefik --docker.watch --web"
+
+
+networks:
+  hw_replica:
+    external: true
+

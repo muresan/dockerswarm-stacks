@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  replica:
+    image: muresan/node-helloworld:${TAG:-1.0}
+    deploy:
+      labels:
+        traefik.port: "3000"
+        traefik.backend.loadbalancer.sticky: "true"
+        traefik.backend.loadbalancer.swarm: "false"
+        traefik.docker.network: "hw_replica"
+      replicas: 3
+      update_config:
+        parallelism: 1
+        delay: 2s
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - replica
+    ports:
+      - "3000:3000"
+    secrets:
+      - secret
+
+networks:
+  replica:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
+    ipam:
+      config:
+      - subnet: 10.0.1.0/24
+      
+secrets:
+  secret:
+    file: ./mysecret.txt
+

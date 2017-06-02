@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  roach1:
+    image: cockroachdb/cockroach:v1.0.1
+    deploy:
+      replicas: 1
+    networks:
+      - roach
+    ports:
+      - "8080:8080"
+    command: "start --insecure"
+  roachN:
+    image: cockroachdb/cockroach:v1.0.1
+    depends_on:
+      - roach1
+    deploy:
+      replicas: 2
+    networks:
+      - roach
+    command: "start --insecure --join=roach1"
+
+networks:
+  roach:
+    driver: overlay
+    driver_opts:
+      encrypted: ""
+    ipam:
+      config:
+      - subnet: 10.10.0.0/16
+      

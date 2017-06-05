@@ -11,3 +11,7 @@ Next deploy the service stack that connects to traefik's network `lb_proxy` so t
 
 ```docker stack deploy -c hello-world.yml hw```
 
+## roach.yml
+Stack that deploys a cockroachdb cluster 
+
+```docker stack deploy -c roach.yml c```

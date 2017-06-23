@@ -18,7 +18,7 @@ services:
       replicas: 2
     networks:
       - roach
-    command: "start --insecure --join=roach1"
+    command: "start --insecure --join=roach1,roachN"
 
 networks:
   roach:

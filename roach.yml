@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   roach1:
-    image: cockroachdb/cockroach:v1.0.1
+    image: cockroachdb/cockroach:v1.0.2
     deploy:
       replicas: 1
     networks:
@@ -11,7 +11,7 @@ services:
       - "8080:8080"
     command: "start --insecure"
   roachN:
-    image: cockroachdb/cockroach:v1.0.1
+    image: cockroachdb/cockroach:v1.0.2
     depends_on:
       - roach1
     deploy:

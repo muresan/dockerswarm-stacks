@@ -10,15 +10,23 @@ services:
     ports:
       - "8080:8080"
     command: "start --insecure"
+    stop_grace_period: 60s
+    hostname: "{{.Task.Name}}"
+
   roachN:
     image: cockroachdb/cockroach:v1.0.2
     depends_on:
       - roach1
     deploy:
-      replicas: 2
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == manager
     networks:
       - roach
     command: "start --insecure --join=roach1,roachN"
+    stop_grace_period: 60s
+    hostname: "{{.Task.Name}}"
 
 networks:
   roach:

@@ -1,14 +1,18 @@
 version: '3.2'
 services:
   elasticsearch1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
     hostname: elasticsearch1
     environment:
       - cluster.name=docker-cluster
+      - node.name=elasticsearch1
+      - http.cors.enabled=true
+      - http.cors.allow-origin='*'
       - bootstrap.memory_lock=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    deploy: &deploy1
-      resources:
+    deploy:
+      replicas: 1
+      resources: &resources1
         limits:
           memory: 1G
         reservations:
@@ -20,16 +24,40 @@ services:
     networks:
       - esnet
   elasticsearch2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+    depends_on:
+      - elasticsearch1
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
     hostname: elasticsearch2
     environment:
       - cluster.name=docker-cluster
+      - node.name=elasticsearch2
       - bootstrap.memory_lock=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=elasticsearch1"
-    deploy: *deploy1
+    deploy:
+      replicas: 1
+      resources: *resources1
     volumes:
       - esdata2:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+  elasticsearch3:
+    depends_on:
+      - elasticsearch1
+      - elasticsearch2
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    hostname: elasticsearch3
+    environment:
+      - cluster.name=docker-cluster
+      - node.name=elasticsearch3
+      - bootstrap.memory_lock=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch1,elasticsearch2"
+    deploy:
+      replicas: 1
+      resources: *resources1
+    volumes:
+      - esdata3:/usr/share/elasticsearch/data
     networks:
       - esnet
   kibana:
@@ -47,7 +75,10 @@ volumes:
     driver: local
   esdata2:
     driver: local
+  esdata3:
+    driver: local
 
 networks:
   esnet:
+
 

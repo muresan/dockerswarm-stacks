@@ -41,9 +41,9 @@ volumes:
 
 configs:
   esconfig:
-    file: ./elasticsearch-config.yml
+    file: ./es-config/elasticsearch-config.yml
   eslogging:
-    file: ./elasticsearch-log4j2.properties
+    file: ./es-config/elasticsearch-log4j2.properties
 
 networks:
   esnet:

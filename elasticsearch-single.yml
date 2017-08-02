@@ -7,6 +7,7 @@ services:
       - bootstrap.memory_lock=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=tasks.elasticsearch"
+      - ES_HOSTNAME={{.Service.Name}}_{{.Task.Slot}}
     deploy:
       endpoint_mode: dnsrr
       replicas: 3
@@ -19,6 +20,7 @@ services:
       - esdata:/usr/share/elasticsearch/data
     networks:
       - esnet
+    hostname: "{{.Task.Name}}"
     configs:
       - source: esconfig
         target: /usr/share/elasticsearch/config/elasticsearch.yml

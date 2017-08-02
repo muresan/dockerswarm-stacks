@@ -2,6 +2,7 @@ cluster.name: "docker-cluster"
 network.host: 0.0.0.0
 http.cors.enabled: true
 http.cors.allow-origin: "*"
+node.name: ${ES_HOSTNAME}
 
 # minimum_master_nodes need to be explicitly set when bound on a public IP
 # set to 1 to allow single node clusters

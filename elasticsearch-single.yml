@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.4'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
@@ -9,7 +9,6 @@ services:
       - "discovery.zen.ping.unicast.hosts=tasks.elasticsearch"
       - ES_HOSTNAME={{.Service.Name}}_{{.Task.Slot}}
     deploy:
-      endpoint_mode: dnsrr
       replicas: 3
       resources:
         limits:

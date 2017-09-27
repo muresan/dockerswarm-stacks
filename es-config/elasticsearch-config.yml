@@ -1,5 +1,5 @@
 cluster.name: "docker-cluster"
-network.host: 0.0.0.0
+network.host: _eth0:ipv4_
 http.cors.enabled: true
 http.cors.allow-origin: "*"
 node.name: ${ES_HOSTNAME}

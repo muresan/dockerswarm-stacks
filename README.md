@@ -15,3 +15,9 @@ Next deploy the service stack that connects to traefik's network `lb_proxy` so t
 Stack that deploys a cockroachdb cluster 
 
 ```docker stack deploy -c roach.yml c```
+
+## elasticsearch-sinle.yml
+Stack that deploys an elasticsearch clsuter. Needs docker 17.09+ as that includes a fix so ES can start with a VIP.
+
+```docker stack deploy -c elasticsearch-single.yml es```
+

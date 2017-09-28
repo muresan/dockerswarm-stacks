@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  cleanup:
+    image: muresan/docker-cleanup
+    deploy:
+      mode: global
+    environment:
+      - FORCE=yes
+      - VOLUMES=yes
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+

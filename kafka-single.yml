@@ -1,0 +1,58 @@
+version: '3.3'
+
+services:
+
+  kafka1:
+    image: confluentinc/cp-kafka
+    environment:
+    - KAFKA_BROKER_ID=1
+    - KAFKA_ZOOKEEPER_CONNECT=zookeeper1:2181
+    - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+        - node.role == manager
+    networks:
+      net:
+    hostname: "{{.Service.Name}}"
+
+  zookeeper1:
+    image: confluentinc/cp-zookeeper
+    environment:
+    - ZOOKEEPER_SERVER_ID=1
+    - ZOOKEEPER_CLIENT_PORT=2181
+    - ZOOKEEPER_TICK_TIME=2000
+    - ZOOKEEPER_INIT_LIMIT=5
+    - ZOOKEEPER_SYNC_LIMIT=2
+    - ZOOKEEPER_SERVERS=zookeeper1:2888:3888
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+        - node.role == manager
+    networks:
+      net:
+    hostname: "{{.Service.Name}}"
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    environment:
+    - ZK_HOSTS=zookeeper1:2181
+    - APPLICATION_SECRET=letmein
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
+    networks:
+      net:
+    hostname: "{{.Service.Name}}"
+    ports:
+    - 9000:9000
+    
+networks:
+  net:
+    driver: overlay
+    driver_opts:
+      encrypted: "true"
+

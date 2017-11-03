@@ -21,3 +21,8 @@ Stack that deploys an elasticsearch clsuter. Needs docker 17.09+ as that include
 
 ```docker stack deploy -c elasticsearch-single.yml es```
 
+## kafka-single.yml
+Stack that deploys a ZooKeeper and Kafka pair with kafka-manager to provide visibility into Kafka
+
+```docker stack deploy -c kafka-single.yml kafka```
+

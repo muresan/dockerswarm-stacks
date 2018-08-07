@@ -1,0 +1,6 @@
+elasticsearch.username: "kibana"
+elasticsearch.password: "kibana"
+server.host: "0.0.0.0"
+server.name: "larry.adworks.ro"
+elasticsearch.url: "http://elasticsearch:9200"
+xpack.monitoring.ui.container.elasticsearch.enabled: true
